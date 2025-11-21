@@ -7,6 +7,7 @@ export const houses: CardData[] = [
         name: "1st House",
         title: "Self & Identity",
         description: "Tests how you see yourself, your confidence, and how you initiate actions in life.",
+        question_generator_prompt: "",
         questions: [
             { id: "h1-q1", text: "I often struggle to assert my true personality in new groups." },
             { id: "h1-q2", text: "I feel confident in my ability to start new projects alone." },
@@ -19,6 +20,7 @@ export const houses: CardData[] = [
         name: "2nd House",
         title: "Values & Security",
         description: "Tests your relationship with security, stability, money, and the core values that guide your choices.",
+        question_generator_prompt: "",
         questions: [
             { id: "h2-q1", text: "Financial stability is more important to me than taking risks." },
             { id: "h2-q2", text: "I often compromise my values to please others." },
@@ -31,7 +33,8 @@ export const houses: CardData[] = [
     //     name: "3rd House",
     //     title: "Expression & Courage",
     //     description: "Tests your communication style, social boldness, and willingness to try new or challenging experiences.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h3-q1", text: "I find it easy to express my controversial opinions." },
     //         { id: "h3-q2", text: "I enjoy learning new skills even if I'm bad at them initially." },
     //         { id: "h3-q3", text: "I often hold back my words to avoid conflict." },
@@ -43,7 +46,8 @@ export const houses: CardData[] = [
     //     name: "4th House",
     //     title: "Emotional Foundations",
     //     description: "Tests your emotional security, comfort needs, and how your inner world shapes your outward behavior.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h4-q1", text: "I need a lot of alone time to recharge emotionally." },
     //         { id: "h4-q2", text: "My childhood experiences heavily influence my current decisions." },
     //         { id: "h4-q3", text: "I feel safe expressing my vulnerability to close ones." },
@@ -55,7 +59,8 @@ export const houses: CardData[] = [
     //     name: "5th House",
     //     title: "Creativity & Play",
     //     description: "Tests your creative expression, romantic spontaneity, and desire to be seen or appreciated.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h5-q1", text: "I prioritize fun and play in my daily life." },
     //         { id: "h5-q2", text: "I enjoy being the center of attention." },
     //         { id: "h5-q3", text: "I express my romantic feelings openly and spontaneously." },
@@ -67,7 +72,8 @@ export const houses: CardData[] = [
     //     name: "6th House",
     //     title: "Discipline & Mastery",
     //     description: "Tests your work ethic, consistency, habits, and how you handle pressure or everyday responsibilities.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h6-q1", text: "I thrive on routine and structure." },
     //         { id: "h6-q2", text: "I often feel overwhelmed by daily responsibilities." },
     //         { id: "h6-q3", text: "I am critical of myself when I am not productive." },
@@ -79,7 +85,8 @@ export const houses: CardData[] = [
     //     name: "7th House",
     //     title: "Partnership & Bonding",
     //     description: "Tests your relationship style, intimacy needs, and how you show up in partnerships and close connections.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h7-q1", text: "I often lose myself in relationships." },
     //         { id: "h7-q2", text: "I prefer making decisions together rather than alone." },
     //         { id: "h7-q3", text: "I struggle to maintain boundaries with close partners." },
@@ -91,7 +98,8 @@ export const houses: CardData[] = [
     //     name: "8th House",
     //     title: "Depth & Shadow",
     //     description: "Tests your comfort with vulnerability, hidden emotions, and transformative or intense experiences.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h8-q1", text: "I am drawn to intense and transformative experiences." },
     //         { id: "h8-q2", text: "I hide my true feelings to protect myself." },
     //         { id: "h8-q3", text: "I am comfortable discussing taboo subjects." },
@@ -103,7 +111,8 @@ export const houses: CardData[] = [
     //     name: "9th House",
     //     title: "Belief & Exploration",
     //     description: "Tests your worldview, curiosity, openness to ideas, and inner search for meaning or purpose.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h9-q1", text: "I am constantly seeking a deeper meaning in life." },
     //         { id: "h9-q2", text: "I am open to changing my core beliefs when presented with new evidence." },
     //         { id: "h9-q3", text: "I feel restless when I stay in one place for too long." },
@@ -115,7 +124,8 @@ export const houses: CardData[] = [
     //     name: "10th House",
     //     title: "Purpose & Achievement",
     //     description: "Tests ambition, responsibility, and how you define success and your public identity.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h10-q1", text: "Social status and recognition are important to me." },
     //         { id: "h10-q2", text: "I feel a strong sense of responsibility towards my community." },
     //         { id: "h10-q3", text: "I am clear about my long-term career goals." },
@@ -127,7 +137,8 @@ export const houses: CardData[] = [
     //     name: "11th House",
     //     title: "Aspirations & Social Vision",
     //     description: "Tests your long-term goals, friendships, networking ability, and desire to contribute socially.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h11-q1", text: "I value my friendships as much as my family." },
     //         { id: "h11-q2", text: "I enjoy connecting people with similar interests." },
     //         { id: "h11-q3", text: "I have a clear vision for how I want to contribute to society." },
@@ -139,7 +150,8 @@ export const houses: CardData[] = [
     //     name: "12th House",
     //     title: "Subconscious & Release",
     //     description: "Tests your inner fears, avoidance patterns, spiritual tendencies, and relationship with solitude.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "h12-q1", text: "I often feel misunderstood by others." },
     //         { id: "h12-q2", text: "I need solitude to process my emotions." },
     //         { id: "h12-q3", text: "I have vivid dreams or intuitive insights." },
@@ -154,6 +166,7 @@ export const grahas: CardData[] = [
         name: "Sun",
         title: "Purpose & Ego Strength",
         description: "Tests your identity, pride, confidence, and inner drive to stand out or lead.",
+        question_generator_prompt: "",
         questions: [
             { id: "g1-q1", text: "I naturally take charge in group situations." },
             { id: "g1-q2", text: "I struggle with feeling invisible or unappreciated." },
@@ -167,7 +180,8 @@ export const grahas: CardData[] = [
     //     name: "Moon",
     //     title: "Emotion & Sensitivity",
     //     description: "Tests emotional regulation, intuition, and how you respond to changing moods or environments.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g2-q1", text: "My mood changes frequently throughout the day." },
     //         { id: "g2-q2", text: "I am highly sensitive to the energy of my environment." },
     //         { id: "g2-q3", text: "I trust my gut feelings over logical analysis." },
@@ -179,7 +193,8 @@ export const grahas: CardData[] = [
     //     name: "Mars",
     //     title: "Drive & Conflict Response",
     //     description: "Tests willpower, assertiveness, anger patterns, and how you push through challenges.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g3-q1", text: "I address conflicts directly and immediately." },
     //         { id: "g3-q2", text: "I often feel a build-up of unexpressed anger." },
     //         { id: "g3-q3", text: "I am energized by competition and challenges." },
@@ -191,7 +206,8 @@ export const grahas: CardData[] = [
     //     name: "Mercury",
     //     title: "Thinking & Expression",
     //     description: "Tests clarity of thought, adaptability, communication patterns, and learning style.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g4-q1", text: "I overthink decisions before taking action." },
     //         { id: "g4-q2", text: "I can easily adapt my communication style to different people." },
     //         { id: "g4-q3", text: "I am always seeking new information and knowledge." },
@@ -203,7 +219,8 @@ export const grahas: CardData[] = [
     //     name: "Jupiter",
     //     title: "Growth & Wisdom",
     //     description: "Tests optimism, ethics, long-term thinking, and your desire for personal or spiritual expansion.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g5-q1", text: "I believe that everything happens for a reason." },
     //         { id: "g5-q2", text: "I prioritize ethical considerations over personal gain." },
     //         { id: "g5-q3", text: "I am optimistic about the future." },
@@ -215,7 +232,8 @@ export const grahas: CardData[] = [
     //     name: "Venus",
     //     title: "Love & Pleasure",
     //     description: "Tests desire for harmony, beauty, affection, and how you express or receive love.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g6-q1", text: "I need beauty and harmony in my surroundings to feel good." },
     //         { id: "g6-q2", text: "I express affection physically and verbally." },
     //         { id: "g6-q3", text: "I avoid conflict to maintain peace in relationships." },
@@ -227,7 +245,8 @@ export const grahas: CardData[] = [
     //     name: "Saturn",
     //     title: "Discipline & Boundaries",
     //     description: "Tests patience, boundaries, fear patterns, and your relationship with hard work and limits.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g7-q1", text: "I am willing to work hard for long-term rewards." },
     //         { id: "g7-q2", text: "I often feel restricted by rules and obligations." },
     //         { id: "g7-q3", text: "I have strict boundaries with my time and energy." },
@@ -239,7 +258,8 @@ export const grahas: CardData[] = [
     //     name: "Rahu",
     //     title: "Ambition & Obsession",
     //     description: "Tests unconventional desires, ambition, risk-taking, and attraction to the unfamiliar or extreme.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g8-q1", text: "I am often drawn to the unconventional or taboo." },
     //         { id: "g8-q2", text: "I have intense desires that can become obsessive." },
     //         { id: "g8-q3", text: "I am willing to take big risks to achieve my ambitions." },
@@ -251,7 +271,8 @@ export const grahas: CardData[] = [
     //     name: "Ketu",
     //     title: "Detachment & Intuition",
     //     description: "Tests spiritual instinct, letting-go ability, minimalism, and intuitive or subconscious insights.",
-    //     questions: [
+    //     question_generator_prompt: "",
+    // questions: [
     //         { id: "g9-q1", text: "I often feel detached from the material world." },
     //         { id: "g9-q2", text: "I rely on sudden insights rather than logical deduction." },
     //         { id: "g9-q3", text: "I find it easy to let go of possessions and attachments." },

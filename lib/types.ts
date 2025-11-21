@@ -20,6 +20,7 @@ export interface CardData {
     name: HouseName | GrahaName;
     title: string; // e.g., "Self & Identity"
     description: string;
+    question_generator_prompt: string;
     questions: Question[];
 }
 

@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { Share2, UserPlus, Mail, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { EmailModal } from "@/components/EmailModal";
 
 export default function ResultsPage() {
     const [profile, setProfile] = useState<UserProfile | null>(null);
+    const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -88,7 +90,7 @@ export default function ResultsPage() {
                     <Button
                         variant="secondary"
                         className="w-full"
-                        onClick={() => alert("Feature coming soon!")}
+                        onClick={() => setIsEmailModalOpen(true)}
                     >
                         <Mail className="w-4 h-4 mr-2" /> Get Detailed Report
                     </Button>
@@ -109,6 +111,12 @@ export default function ResultsPage() {
                     </p>
                 </div>
             </motion.div>
+
+            <EmailModal
+                isOpen={isEmailModalOpen}
+                onClose={() => setIsEmailModalOpen(false)}
+                profile={profile}
+            />
         </main>
     );
 }

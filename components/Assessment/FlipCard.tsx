@@ -16,6 +16,7 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
     const [scores, setScores] = useState<number[]>([0, 0, 0]);
+    const [shake, setShake] = useState(false);
 
     const handleRate = (index: number, score: number) => {
         const newScores = [...scores];
@@ -26,6 +27,9 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
     const handleSubmit = () => {
         if (scores.every((s) => s > 0)) {
             onRate(scores);
+        } else {
+            setShake(true);
+            setTimeout(() => setShake(false), 400);
         }
     };
 
@@ -53,18 +57,28 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                 transition={{ duration: 0.15, type: "spring", stiffness: 160, damping: 20 }}
             >
                 {/* Front of Card */}
-                <div
-                    className="absolute inset-0 backface-hidden w-full h-full bg-mystic-purple/90 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-2xl cursor-pointer"
+                <button
+                    type="button"
+                    className="absolute inset-0 backface-hidden w-full h-full bg-mystic-purple/90 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-2xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-mystic-gold/50"
                     onClick={() => !showInfo && setIsFlipped(true)}
                     style={{ backgroundImage: "var(--card-gradient)" }}
+                    aria-label={`Flip card for ${data.name}`}
                 >
                     {/* Info Button */}
-                    <button
+                    <div
+                        role="button"
+                        tabIndex={0}
                         onClick={handleInfoClick}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                                handleInfoClick(e as any);
+                            }
+                        }}
                         className="absolute top-4 right-4 p-2 rounded-full bg-white/5 text-mystic-muted hover:bg-white/10 hover:text-mystic-gold transition-colors z-10"
+                        aria-label="Show card info"
                     >
                         <Info className="w-5 h-5" />
-                    </button>
+                    </div>
 
                     <div className="w-20 h-20 rounded-full bg-mystic-gold/10 flex items-center justify-center mb-6">
                         <span className="text-4xl font-heading text-mystic-gold">
@@ -91,12 +105,13 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.95 }}
-                                className="absolute inset-0 bg-mystic-dark/95 backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center justify-center z-20"
+                                className="absolute inset-0 bg-mystic-dark/95 backdrop-blur-sm rounded-2xl p-6 flex flex-col items-center justify-center z-20 cursor-default"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 <button
                                     onClick={handleCloseInfo}
                                     className="absolute top-4 right-4 p-2 text-mystic-muted hover:text-white"
+                                    aria-label="Close info"
                                 >
                                     <X className="w-5 h-5" />
                                 </button>
@@ -111,7 +126,7 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                             </motion.div>
                         )}
                     </AnimatePresence>
-                </div>
+                </button>
 
                 {/* Back of Card */}
                 <div
@@ -165,15 +180,20 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                         >
                             <RotateCcw className="w-4 h-4 mr-2" /> Back
                         </Button>
-                        <Button
-                            variant="primary"
-                            size="sm"
-                            onClick={handleSubmit}
-                            disabled={scores.some(s => s === 0)}
+                        <motion.div
                             className="flex-1"
+                            animate={shake ? { x: [0, -10, 10, -10, 10, 0] } : {}}
+                            transition={{ duration: 0.4 }}
                         >
-                            Next Card
-                        </Button>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={handleSubmit}
+                                className="w-full"
+                            >
+                                Next Card
+                            </Button>
+                        </motion.div>
                     </div>
                 </div>
             </motion.div>

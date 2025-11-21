@@ -10,7 +10,7 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
+# or{{ $('Airtable Schema').item.json.base }}
 bun dev
 ```
 

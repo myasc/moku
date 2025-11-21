@@ -4,14 +4,13 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { UserProfile } from "@/lib/types";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useAppStore } from "@/lib/store";
 
-interface OnboardingProps {
-    onComplete: (profile: UserProfile) => void;
-}
+export function Onboarding() {
+    const setUserProfile = useAppStore((state) => state.setUserProfile);
+    const setView = useAppStore((state) => state.setView);
 
-export function Onboarding({ onComplete }: OnboardingProps) {
     const [step, setStep] = useState<"details" | "tutorial">("details");
     const [name, setName] = useState("");
     const [dob, setDob] = useState("");
@@ -25,12 +24,13 @@ export function Onboarding({ onComplete }: OnboardingProps) {
     };
 
     const handleStart = () => {
-        onComplete({
+        setUserProfile({
             name,
             dob,
             gender,
             scores: {},
         });
+        setView("assessment");
     };
 
     return (
@@ -81,8 +81,8 @@ export function Onboarding({ onComplete }: OnboardingProps) {
                                         type="button"
                                         onClick={() => setGender(g)}
                                         className={`flex-1 py-3 rounded-xl border transition-all ${gender === g
-                                                ? "bg-mystic-gold/20 border-mystic-gold text-mystic-gold"
-                                                : "bg-mystic-purple/50 border-white/10 text-mystic-muted hover:bg-white/5"
+                                            ? "bg-mystic-gold/20 border-mystic-gold text-mystic-gold"
+                                            : "bg-mystic-purple/50 border-white/10 text-mystic-muted hover:bg-white/5"
                                             }`}
                                     >
                                         {g}
@@ -129,3 +129,4 @@ export function Onboarding({ onComplete }: OnboardingProps) {
         </div>
     );
 }
+

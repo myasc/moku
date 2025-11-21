@@ -1,18 +1,17 @@
 "use client";
 
-import { UserProfile } from "@/lib/types";
 import { CardStack } from "./CardStack";
 import { allCards } from "@/lib/data";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/lib/store";
 
-interface AssessmentProps {
-    userProfile: UserProfile;
-}
-
-export function Assessment({ userProfile }: AssessmentProps) {
+export function Assessment() {
     const router = useRouter();
+    const userProfile = useAppStore((state) => state.userProfile);
 
     const handleComplete = (scores: Record<string, number>) => {
+        if (!userProfile) return;
+
         // In a real app, we would save this to a database/local storage
         console.log("Assessment Complete:", { ...userProfile, scores });
 
@@ -22,6 +21,8 @@ export function Assessment({ userProfile }: AssessmentProps) {
 
         router.push("/results");
     };
+
+    if (!userProfile) return null;
 
     return (
         <div className="w-full">

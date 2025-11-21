@@ -84,6 +84,6 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   background-image: var(--mystic-gradient);
-  min-height: 100vh;
+  min-height: 100dvh;
   background-attachment: fixed;
 }

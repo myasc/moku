@@ -14,14 +14,20 @@ export interface Question {
     text: string;
 }
 
+export interface QuestionSet {
+    id: string;
+    questions: Question[];
+    createdAt: number;
+}
+
 export interface CardData {
     id: string;
     type: CategoryType;
     name: HouseName | GrahaName;
     title: string; // e.g., "Self & Identity"
     description: string;
-    question_generator_prompt: string;
     questions: Question[];
+    aiPrompt: string; // Prompt for generating questions
 }
 
 export interface UserProfile {

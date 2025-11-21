@@ -7,12 +7,12 @@ export const houses: CardData[] = [
         name: "1st House",
         title: "Self & Identity",
         description: "Tests how you see yourself, your confidence, and how you initiate actions in life.",
-        question_generator_prompt: "",
         questions: [
             { id: "h1-q1", text: "I often struggle to assert my true personality in new groups." },
             { id: "h1-q2", text: "I feel confident in my ability to start new projects alone." },
             { id: "h1-q3", text: "My physical appearance significantly impacts my self-worth." },
         ],
+        aiPrompt: "Focus on self-assertion, physical vitality, and the ability to initiate action. Ask about how they handle being the center of attention, their relationship with their physical body, and their independence.",
     },
     {
         id: "h2",
@@ -20,12 +20,12 @@ export const houses: CardData[] = [
         name: "2nd House",
         title: "Values & Security",
         description: "Tests your relationship with security, stability, money, and the core values that guide your choices.",
-        question_generator_prompt: "",
         questions: [
             { id: "h2-q1", text: "Financial stability is more important to me than taking risks." },
             { id: "h2-q2", text: "I often compromise my values to please others." },
             { id: "h2-q3", text: "I feel secure in my ability to provide for myself." },
         ],
+        aiPrompt: "Focus on material security, self-worth related to resources, and personal values. Ask about their spending habits, their need for stability, and how they define their own value.",
     }
     // ,{
     //     id: "h3",
@@ -166,12 +166,12 @@ export const grahas: CardData[] = [
         name: "Sun",
         title: "Purpose & Ego Strength",
         description: "Tests your identity, pride, confidence, and inner drive to stand out or lead.",
-        question_generator_prompt: "",
         questions: [
             { id: "g1-q1", text: "I naturally take charge in group situations." },
             { id: "g1-q2", text: "I struggle with feeling invisible or unappreciated." },
             { id: "g1-q3", text: "My self-esteem is independent of others' opinions." },
         ],
+        aiPrompt: "Focus on ego, leadership, and vitality. Ask about their need for recognition, their relationship with authority (inner and outer), and their core sense of purpose.",
     }
     // ,
     // {

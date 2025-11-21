@@ -4,8 +4,9 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CardData } from "@/lib/types";
 import { Button } from "@/components/ui/Button";
-import { RefreshCw, RotateCcw, Info, X } from "lucide-react";
+import { RefreshCw, RotateCcw, Info, X, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAppStore } from "@/lib/store";
 
 interface FlipCardProps {
     data: CardData;
@@ -20,6 +21,36 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
         initialScores || new Array(data.questions.length).fill(0)
     );
     const [shake, setShake] = useState(false);
+
+    // Store State
+    const {
+        questionSets,
+        currentSetIndex,
+        refreshCount,
+        isLoadingQuestions,
+        setQuestionSets,
+        setCurrentSetIndex,
+        incrementRefreshCount,
+        setLoadingQuestions
+    } = useAppStore();
+
+    const cardId = data.id;
+    const currentSets = questionSets[cardId] || [];
+    const currentIndex = currentSetIndex[cardId] || 0;
+    const currentRefreshCount = refreshCount[cardId] || 0;
+    const isLoading = isLoadingQuestions[cardId] || false;
+
+    // Determine which questions to show
+    const activeQuestions = currentSets.length > 0
+        ? currentSets[currentIndex].questions
+        : data.questions;
+
+    // Reset scores when questions change
+    // Note: In a real app, we might want to persist scores per question set
+    // For now, we reset when switching sets if the scores don't match the new length
+    if (scores.length !== activeQuestions.length) {
+        setScores(new Array(activeQuestions.length).fill(0));
+    }
 
     const handleRate = (index: number, score: number) => {
         const newScores = [...scores];
@@ -36,10 +67,53 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
         }
     };
 
-    const handleRefresh = (e: React.MouseEvent) => {
+    const handleRefresh = async (e: React.MouseEvent) => {
         e.stopPropagation();
-        // In a real app, this would fetch new questions
-        console.log("Refresh questions");
+
+        if (currentRefreshCount >= 3) {
+            alert("Maximum refresh limit reached");
+            return;
+        }
+
+        setLoadingQuestions(cardId, true);
+
+        try {
+            const response = await fetch('/api/generate-questions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ cardId: data.id, type: data.type }),
+            });
+
+            if (!response.ok) throw new Error('Failed to generate questions');
+
+            const result = await response.json();
+
+            // Update store
+            setQuestionSets(cardId, result.questions);
+            setCurrentSetIndex(cardId, 0); // Reset to first set
+            incrementRefreshCount(cardId);
+
+            // Reset scores for new questions
+            setScores(new Array(3).fill(0));
+
+        } catch (error) {
+            console.error("Error refreshing questions:", error);
+            alert("Failed to refresh questions. Please try again.");
+        } finally {
+            setLoadingQuestions(cardId, false);
+        }
+    };
+
+    const handleNavigate = (e: React.MouseEvent, direction: 'prev' | 'next') => {
+        e.stopPropagation();
+        if (currentSets.length === 0) return;
+
+        const newIndex = direction === 'prev'
+            ? Math.max(0, currentIndex - 1)
+            : Math.min(currentSets.length - 1, currentIndex + 1);
+
+        setCurrentSetIndex(cardId, newIndex);
+        setScores(new Array(3).fill(0)); // Reset scores for new set
     };
 
     const handleInfoClick = (e: React.MouseEvent) => {
@@ -80,7 +154,7 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                         onClick={handleInfoClick}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' || e.key === ' ') {
-                                handleInfoClick(e as any);
+                                handleInfoClick(e as unknown as React.MouseEvent);
                             }
                         }}
                         className="absolute top-4 right-4 p-2 rounded-full bg-white/5 text-mystic-muted hover:bg-white/10 hover:text-mystic-gold transition-colors z-10"
@@ -144,16 +218,46 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                 >
                     <div className="flex justify-between items-center mb-6">
                         <h3 className="text-lg font-bold text-mystic-gold">{data.name}</h3>
-                        <button
-                            onClick={handleRefresh}
-                            className="p-2 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text transition-colors"
-                        >
-                            <RefreshCw className="w-4 h-4" />
-                        </button>
+
+                        <div className="flex items-center gap-2">
+                            {/* Navigation Arrows */}
+                            {currentSets.length > 0 && (
+                                <>
+                                    <button
+                                        onClick={(e) => handleNavigate(e, 'prev')}
+                                        disabled={currentIndex === 0}
+                                        className="p-1 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                    >
+                                        <ChevronLeft className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={(e) => handleNavigate(e, 'next')}
+                                        disabled={currentIndex === currentSets.length - 1}
+                                        className="p-1 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                                    >
+                                        <ChevronRight className="w-4 h-4" />
+                                    </button>
+                                </>
+                            )}
+
+                            {/* Refresh Button */}
+                            <button
+                                onClick={handleRefresh}
+                                disabled={currentRefreshCount >= 3 || isLoading}
+                                className="p-2 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-50 disabled:cursor-not-allowed transition-colors relative"
+                                title={currentRefreshCount >= 3 ? "Refresh limit reached" : "Get new questions"}
+                            >
+                                {isLoading ? (
+                                    <Loader2 className="w-4 h-4 animate-spin" />
+                                ) : (
+                                    <RefreshCw className="w-4 h-4" />
+                                )}
+                            </button>
+                        </div>
                     </div>
 
                     <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
-                        {data.questions.map((q, qIdx) => (
+                        {activeQuestions.map((q, qIdx) => (
                             <div key={q.id} className="space-y-3">
                                 <p className="text-sm text-mystic-text">{q.text}</p>
                                 <div className="flex justify-between gap-2">

@@ -5,7 +5,7 @@ import { UserProfile } from "@/lib/types";
 import { getDominantTraits } from "@/lib/scoring";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
-import { Share2, UserPlus, Mail } from "lucide-react";
+import { Share2, UserPlus, Mail, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function ResultsPage() {
@@ -36,8 +36,19 @@ export default function ResultsPage() {
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="z-10 w-full max-w-md space-y-8 mt-10"
+                className="z-10 w-full max-w-md space-y-6 mt-6"
             >
+                <div className="w-full flex justify-start">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push("/")}
+                        className="px-0 hover:bg-transparent text-mystic-muted hover:text-mystic-gold"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                    </Button>
+                </div>
+
                 <div className="text-center space-y-2">
                     <h1 className="text-3xl font-heading font-bold text-mystic-gold">
                         {profile.name}&apos;s Profile

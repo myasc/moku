@@ -157,12 +157,21 @@ export default function ComparePage() {
                                 </p>
                             </div>
 
-                            <div className="flex gap-3">
-                                <Button variant="secondary" onClick={() => setResult(null)} className="flex-1">
-                                    Check Another
-                                </Button>
-                                <Button className="flex-1">
-                                    Share Result
+                            <div className="flex gap-3 flex-col">
+                                <div className="flex gap-3">
+                                    <Button variant="secondary" onClick={() => setResult(null)} className="flex-1">
+                                        Check Another
+                                    </Button>
+                                    <Button className="flex-1">
+                                        Share Result
+                                    </Button>
+                                </div>
+                                <Button
+                                    variant="ghost"
+                                    onClick={() => router.push("/results")}
+                                    className="w-full"
+                                >
+                                    Back to My Profile
                                 </Button>
                             </div>
                         </motion.div>

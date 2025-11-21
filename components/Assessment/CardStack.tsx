@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CardData } from "@/lib/types";
 import { FlipCard } from "./FlipCard";
 import { ProgressBar } from "./ProgressBar";
+import { Button } from "@/components/ui/Button";
+import { ArrowLeft } from "lucide-react";
 
 interface CardStackProps {
     cards: CardData[];
@@ -14,6 +16,7 @@ interface CardStackProps {
 export function CardStack({ cards, onComplete }: CardStackProps) {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [allScores, setAllScores] = useState<Record<string, number>>({});
+    const [rawScores, setRawScores] = useState<Record<string, number[]>>({});
 
     const handleCardRate = (scores: number[]) => {
         const currentCard = cards[currentIndex];
@@ -22,6 +25,9 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
         const newAllScores = { ...allScores, [currentCard.id]: averageScore };
         setAllScores(newAllScores);
 
+        const newRawScores = { ...rawScores, [currentCard.id]: scores };
+        setRawScores(newRawScores);
+
         if (currentIndex < cards.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
@@ -29,9 +35,32 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
         }
     };
 
+    const handleBack = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        }
+    };
+
     return (
         <div className="w-full max-w-md mx-auto">
-            <ProgressBar current={currentIndex + 1} total={cards.length} />
+            <div className="mb-6 flex items-center justify-between">
+                {currentIndex > 0 ? (
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handleBack}
+                        className="px-0 hover:bg-transparent"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" /> Back
+                    </Button>
+                ) : (
+                    <div /> /* Spacer to keep progress bar centered if needed, or just empty */
+                )}
+                <div className="flex-1 mx-4">
+                    <ProgressBar current={currentIndex + 1} total={cards.length} />
+                </div>
+                <div className="w-[60px]" /> {/* Spacer for balance */}
+            </div>
 
             <div className="relative h-[500px]">
                 <AnimatePresence mode="wait">
@@ -46,6 +75,7 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
                         <FlipCard
                             data={cards[currentIndex]}
                             onRate={handleCardRate}
+                            initialScores={rawScores[cards[currentIndex].id]}
                         />
                     </motion.div>
                 </AnimatePresence>

@@ -10,12 +10,15 @@ import { cn } from "@/lib/utils";
 interface FlipCardProps {
     data: CardData;
     onRate: (scores: number[]) => void;
+    initialScores?: number[];
 }
 
-export function FlipCard({ data, onRate }: FlipCardProps) {
+export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
     const [isFlipped, setIsFlipped] = useState(false);
     const [showInfo, setShowInfo] = useState(false);
-    const [scores, setScores] = useState<number[]>([0, 0, 0]);
+    const [scores, setScores] = useState<number[]>(
+        initialScores || new Array(data.questions.length).fill(0)
+    );
     const [shake, setShake] = useState(false);
 
     const handleRate = (index: number, score: number) => {
@@ -57,10 +60,16 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                 transition={{ duration: 0.15, type: "spring", stiffness: 160, damping: 20 }}
             >
                 {/* Front of Card */}
-                <button
-                    type="button"
+                <div
                     className="absolute inset-0 backface-hidden w-full h-full bg-mystic-purple/90 border border-white/10 rounded-2xl p-6 flex flex-col items-center justify-center text-center shadow-2xl cursor-pointer focus:outline-none focus:ring-2 focus:ring-mystic-gold/50"
                     onClick={() => !showInfo && setIsFlipped(true)}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            if (!showInfo) setIsFlipped(true);
+                        }
+                    }}
+                    role="button"
+                    tabIndex={0}
                     style={{ backgroundImage: "var(--card-gradient)" }}
                     aria-label={`Flip card for ${data.name}`}
                 >
@@ -126,7 +135,7 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
                             </motion.div>
                         )}
                     </AnimatePresence>
-                </button>
+                </div>
 
                 {/* Back of Card */}
                 <div

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mystical Kundli",
+  title: "Introspective Kundli",
   description: "Psychological relationship compatibility within Vedic structure",
 };
 

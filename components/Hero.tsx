@@ -17,7 +17,7 @@ export function Hero() {
         >
             <div className="space-y-4">
                 <h1 className="text-5xl font-heading font-bold bg-clip-text text-transparent bg-gradient-to-b from-mystic-gold to-white tracking-tight">
-                    KUNDLI
+                    MK
                 </h1>
                 <p className="text-mystic-muted text-lg max-w-xs mx-auto leading-relaxed">
                     Discover your inner architecture through ancient wisdom and modern psychology.

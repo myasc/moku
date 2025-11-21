@@ -50,7 +50,7 @@ export function FlipCard({ data, onRate }: FlipCardProps) {
             <motion.div
                 className="w-full h-full relative preserve-3d transition-all duration-150"
                 animate={{ rotateY: isFlipped ? 180 : 0 }}
-                transition={{ duration: 0.15, type: "spring", stiffness: 260, damping: 20 }}
+                transition={{ duration: 0.15, type: "spring", stiffness: 160, damping: 20 }}
             >
                 {/* Front of Card */}
                 <div

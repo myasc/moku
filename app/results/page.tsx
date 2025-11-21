@@ -94,7 +94,7 @@ export default function ResultsPage() {
                     </Button>
                 </div>
 
-                <div className="text-center">
+                <div className="text-center space-y-3">
                     <button
                         onClick={() => {
                             localStorage.removeItem("kundli_profile");
@@ -104,6 +104,9 @@ export default function ResultsPage() {
                     >
                         Retake Assessment
                     </button>
+                    <p className="text-[10px] text-mystic-muted/50 max-w-xs mx-auto leading-relaxed px-4">
+                        Note: We recommend taking the assessment 3 or more times and averaging the results for the most accurate profile.
+                    </p>
                 </div>
             </motion.div>
         </main>

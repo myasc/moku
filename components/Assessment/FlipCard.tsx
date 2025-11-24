@@ -164,9 +164,7 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                     </div>
 
                     <div className="w-20 h-20 rounded-full bg-mystic-gold/10 flex items-center justify-center mb-6">
-                        <span className="text-4xl font-heading text-mystic-gold">
-                            {data.name.charAt(0)}
-                        </span>
+                        <data.icon className="w-10 h-10 text-mystic-gold" />
                     </div>
 
                     <h3 className="text-xl font-bold text-mystic-gold mb-2">{data.name}</h3>

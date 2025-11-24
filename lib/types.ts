@@ -28,6 +28,7 @@ export interface CardData {
     description: string;
     questions: Question[];
     aiPrompt: string; // Prompt for generating questions
+    icon: any; // Lucide Icon
 }
 
 export interface UserProfile {

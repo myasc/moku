@@ -1,8 +1,13 @@
 import { CardData } from "./types";
+import {
+    User, Shield, MessageCircle, Home, Sparkles, Activity, Users, Eye, Compass, Trophy, Star, Cloud,
+    Sun, Moon, Flame, Brain, Sprout, Heart, Hourglass, Zap, Wind
+} from "lucide-react";
 
 export const houses: CardData[] = [
     {
         id: "h1",
+        icon: User,
         type: "House",
         name: "1st House",
         title: "Self & Identity",
@@ -16,6 +21,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h2",
+        icon: Shield,
         type: "House",
         name: "2nd House",
         title: "Values & Security",
@@ -29,6 +35,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h3",
+        icon: MessageCircle,
         type: "House",
         name: "3rd House",
         title: "Expression & Courage",
@@ -42,6 +49,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h4",
+        icon: Home,
         type: "House",
         name: "4th House",
         title: "Emotional Foundations",
@@ -55,6 +63,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h5",
+        icon: Sparkles,
         type: "House",
         name: "5th House",
         title: "Creativity & Play",
@@ -68,6 +77,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h6",
+        icon: Activity,
         type: "House",
         name: "6th House",
         title: "Discipline & Mastery",
@@ -81,6 +91,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h7",
+        icon: Users,
         type: "House",
         name: "7th House",
         title: "Partnership & Bonding",
@@ -94,6 +105,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h8",
+        icon: Eye,
         type: "House",
         name: "8th House",
         title: "Depth & Shadow",
@@ -107,6 +119,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h9",
+        icon: Compass,
         type: "House",
         name: "9th House",
         title: "Belief & Exploration",
@@ -120,6 +133,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h10",
+        icon: Trophy,
         type: "House",
         name: "10th House",
         title: "Purpose & Achievement",
@@ -133,6 +147,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h11",
+        icon: Star,
         type: "House",
         name: "11th House",
         title: "Aspirations & Social Vision",
@@ -146,6 +161,7 @@ export const houses: CardData[] = [
     },
     {
         id: "h12",
+        icon: Cloud,
         type: "House",
         name: "12th House",
         title: "Subconscious & Release",
@@ -162,6 +178,7 @@ export const houses: CardData[] = [
 export const grahas: CardData[] = [
     {
         id: "g1",
+        icon: Sun,
         type: "Graha",
         name: "Sun",
         title: "Purpose & Ego Strength",
@@ -175,6 +192,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g2",
+        icon: Moon,
         type: "Graha",
         name: "Moon",
         title: "Emotion & Sensitivity",
@@ -188,6 +206,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g3",
+        icon: Flame,
         type: "Graha",
         name: "Mars",
         title: "Drive & Conflict Response",
@@ -201,6 +220,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g4",
+        icon: Brain,
         type: "Graha",
         name: "Mercury",
         title: "Thinking & Expression",
@@ -214,6 +234,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g5",
+        icon: Sprout,
         type: "Graha",
         name: "Jupiter",
         title: "Growth & Wisdom",
@@ -227,6 +248,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g6",
+        icon: Heart,
         type: "Graha",
         name: "Venus",
         title: "Love & Pleasure",
@@ -240,6 +262,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g7",
+        icon: Hourglass,
         type: "Graha",
         name: "Saturn",
         title: "Discipline & Boundaries",
@@ -253,6 +276,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g8",
+        icon: Zap,
         type: "Graha",
         name: "Rahu",
         title: "Ambition & Obsession",
@@ -266,6 +290,7 @@ export const grahas: CardData[] = [
     },
     {
         id: "g9",
+        icon: Wind,
         type: "Graha",
         name: "Ketu",
         title: "Detachment & Intuition",

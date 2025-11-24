@@ -289,7 +289,7 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                             onClick={() => setIsFlipped(false)}
                             className="flex-1"
                         >
-                            <RotateCcw className="w-4 h-4 mr-2" /> Back
+                            <RotateCcw className="w-4 h-4 mr-2" /> Flip
                         </Button>
                         <motion.div
                             className="flex-1"

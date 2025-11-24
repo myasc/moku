@@ -12,6 +12,7 @@ export const houses: CardData[] = [
         name: "1st House",
         title: "Self & Identity",
         description: "Tests how you see yourself, your confidence, and how you initiate actions in life.",
+        detailedDescription: "This house explores your sense of identity, self-belief, and overall presence. It measures how confidently you approach new situations, how you define yourself internally, and the way you project your personality outward. High scores show strong agency; lower scores point toward uncertainty or self-questioning.",
         questions: [
             { id: "h1-q1", text: "I often struggle to assert my true personality in new groups." },
             { id: "h1-q2", text: "I feel confident in my ability to start new projects alone." },
@@ -26,6 +27,7 @@ export const houses: CardData[] = [
         name: "2nd House",
         title: "Values & Security",
         description: "Tests your relationship with security, stability, money, and the core values that guide your choices.",
+        detailedDescription: "This house measures how you relate to material comfort, personal values, and emotional safety. It examines your need for stability, your attitude toward money, and how secure you feel within yourself. Dominance here suggests strong grounding; lower expression hints at instability or unclear priorities.",
         questions: [
             { id: "h2-q1", text: "Financial stability is more important to me than taking risks." },
             { id: "h2-q2", text: "I often compromise my values to please others." },
@@ -40,6 +42,7 @@ export const houses: CardData[] = [
         name: "3rd House",
         title: "Expression & Courage",
         description: "Tests your communication style, social boldness, and willingness to try new or challenging experiences.",
+        detailedDescription: "This house evaluates how openly you express yourself, how you handle social interactions, and your appetite for risk or novelty. It reflects your ability to articulate ideas, stand up for yourself, and engage with the world. A strong score shows initiative; a low one suggests hesitation or self-censorship.",
         questions: [
             { id: "h3-q1", text: "I find it easy to express my controversial opinions." },
             { id: "h3-q2", text: "I enjoy learning new skills even if I'm bad at them initially." },
@@ -54,6 +57,7 @@ export const houses: CardData[] = [
         name: "4th House",
         title: "Emotional Foundations",
         description: "Tests your emotional security, comfort needs, and how your inner world shapes your outward behavior.",
+        detailedDescription: "This house examines your emotional base, your need for comfort, and how deeply your past and family influence your present. It highlights attachment patterns, inner stability, and how you retreat or recharge. Strong expression signals deep emotional awareness; lower levels suggest detachment or unresolved roots.",
         questions: [
             { id: "h4-q1", text: "I need a lot of alone time to recharge emotionally." },
             { id: "h4-q2", text: "My childhood experiences heavily influence my current decisions." },
@@ -68,6 +72,7 @@ export const houses: CardData[] = [
         name: "5th House",
         title: "Creativity & Play",
         description: "Tests your creative expression, romantic spontaneity, and desire to be seen or appreciated.",
+        detailedDescription: "This house captures your creative instincts, your sense of play, and how naturally you express joy or affection. It also touches on personal flair, originality, and emotional openness in love. High scores reflect vibrant creativity; lower ones indicate inhibition or self-doubt in expression.",
         questions: [
             { id: "h5-q1", text: "I prioritize fun and play in my daily life." },
             { id: "h5-q2", text: "I enjoy being the center of attention." },
@@ -82,6 +87,7 @@ export const houses: CardData[] = [
         name: "6th House",
         title: "Discipline & Mastery",
         description: "Tests your work ethic, consistency, habits, and how you handle pressure or everyday responsibilities.",
+        detailedDescription: "This house explores your approach to routines, problem-solving, health discipline, and personal improvement. It measures how you navigate challenges, maintain structure, and take responsibility for your well-being. Strong scores point to resilience and order; weaker ones show avoidance or inconsistency.",
         questions: [
             { id: "h6-q1", text: "I thrive on routine and structure." },
             { id: "h6-q2", text: "I often feel overwhelmed by daily responsibilities." },
@@ -96,6 +102,7 @@ export const houses: CardData[] = [
         name: "7th House",
         title: "Partnership & Bonding",
         description: "Tests your relationship style, intimacy needs, and how you show up in partnerships and close connections.",
+        detailedDescription: "This house analyzes your patterns in romantic and platonic partnerships — your expectations, boundaries, and emotional reciprocity. It highlights how you balance closeness with independence, and how you respond to the needs of others. High scores show relational maturity; low ones show fear, imbalance, or overdependence.",
         questions: [
             { id: "h7-q1", text: "I often lose myself in relationships." },
             { id: "h7-q2", text: "I prefer making decisions together rather than alone." },
@@ -110,6 +117,7 @@ export const houses: CardData[] = [
         name: "8th House",
         title: "Depth & Shadow",
         description: "Tests your comfort with vulnerability, hidden emotions, and transformative or intense experiences.",
+        detailedDescription: "This house measures how you handle emotional depth, fear, trauma, intimacy, and the unknown. It reflects your willingness to confront difficult truths, your response to loss, and how you regenerate after setbacks. High scores show profound self-awareness; low ones indicate avoidance or emotional suppression.",
         questions: [
             { id: "h8-q1", text: "I am drawn to intense and transformative experiences." },
             { id: "h8-q2", text: "I hide my true feelings to protect myself." },
@@ -124,6 +132,7 @@ export const houses: CardData[] = [
         name: "9th House",
         title: "Belief & Exploration",
         description: "Tests your worldview, curiosity, openness to ideas, and inner search for meaning or purpose.",
+        detailedDescription: "This house captures your relationship with belief systems, philosophy, and long-term personal growth. It measures your openness to new cultures, ideas, and life experiences. High scores show expansive thinking; lower ones imply rigidity or a narrowed worldview.",
         questions: [
             { id: "h9-q1", text: "I am constantly seeking a deeper meaning in life." },
             { id: "h9-q2", text: "I am open to changing my core beliefs when presented with new evidence." },
@@ -138,6 +147,7 @@ export const houses: CardData[] = [
         name: "10th House",
         title: "Purpose & Achievement",
         description: "Tests ambition, responsibility, and how you define success and your public identity.",
+        detailedDescription: "This house evaluates your drive for achievement, leadership tendencies, and how strongly you identify with your career or personal mission. It measures discipline, vision, and your response to external expectations. High scores signal purposeful ambition; low ones hint at uncertainty or disengagement.",
         questions: [
             { id: "h10-q1", text: "Social status and recognition are important to me." },
             { id: "h10-q2", text: "I feel a strong sense of responsibility towards my community." },
@@ -152,6 +162,7 @@ export const houses: CardData[] = [
         name: "11th House",
         title: "Aspirations & Social Vision",
         description: "Tests your long-term goals, friendships, networking ability, and desire to contribute socially.",
+        detailedDescription: "This house examines your connection to communities, your ability to collaborate, and your vision for the future. It reflects how your goals intertwine with collective growth. Strong scores show social alignment; lower ones show isolation or unclear aspirations.",
         questions: [
             { id: "h11-q1", text: "I value my friendships as much as my family." },
             { id: "h11-q2", text: "I enjoy connecting people with similar interests." },
@@ -166,6 +177,7 @@ export const houses: CardData[] = [
         name: "12th House",
         title: "Subconscious & Release",
         description: "Tests your inner fears, avoidance patterns, spiritual tendencies, and relationship with solitude.",
+        detailedDescription: "This house explores your hidden emotions, self-sabotage loops, and instinct for withdrawal or transcendence. It measures how you navigate endings, surrender, and the unseen layers of your psyche. High scores show intuition and depth; low ones signal repression or escapism.",
         questions: [
             { id: "h12-q1", text: "I often feel misunderstood by others." },
             { id: "h12-q2", text: "I need solitude to process my emotions." },
@@ -183,6 +195,7 @@ export const grahas: CardData[] = [
         name: "Sun",
         title: "Purpose & Ego Strength",
         description: "Tests your identity, pride, confidence, and inner drive to stand out or lead.",
+        detailedDescription: "The Sun represents your core self: confidence, purpose, and the need to feel significant. It measures how strongly you assert your individuality, how you handle recognition, and where your leadership instincts come from. High scores show strong ego strength; lower scores point toward self-doubt or dimming your own light.",
         questions: [
             { id: "g1-q1", text: "I naturally take charge in group situations." },
             { id: "g1-q2", text: "I struggle with feeling invisible or unappreciated." },
@@ -197,6 +210,7 @@ export const grahas: CardData[] = [
         name: "Moon",
         title: "Emotion & Sensitivity",
         description: "Tests emotional regulation, intuition, and how you respond to changing moods or environments.",
+        detailedDescription: "The Moon governs your inner emotional climate — how you process feelings, care for others, and seek comfort. It reflects sensitivity, adaptability, and instinctual responses. High scores indicate emotional richness; lower ones suggest rigidity, overthinking, or emotional disconnect.",
         questions: [
             { id: "g2-q1", text: "My mood changes frequently throughout the day." },
             { id: "g2-q2", text: "I am highly sensitive to the energy of my environment." },
@@ -211,6 +225,7 @@ export const grahas: CardData[] = [
         name: "Mars",
         title: "Drive & Conflict Response",
         description: "Tests willpower, assertiveness, anger patterns, and how you push through challenges.",
+        detailedDescription: "Mars measures your action-taking energy: how you pursue goals, react to obstacles, and express aggression or passion. It shows how you stand your ground, confront problems, and channel intensity. High scores show boldness; lower ones suggest avoidance or passivity.",
         questions: [
             { id: "g3-q1", text: "I address conflicts directly and immediately." },
             { id: "g3-q2", text: "I often feel a build-up of unexpressed anger." },
@@ -225,6 +240,7 @@ export const grahas: CardData[] = [
         name: "Mercury",
         title: "Thinking & Expression",
         description: "Tests clarity of thought, adaptability, communication patterns, and learning style.",
+        detailedDescription: "Mercury represents your cognitive style: logic, reasoning, and how fluidly you communicate. It also reflects mental agility and curiosity. High scores show quick thinking and clarity; lower ones reveal confusion, rigidity, or difficulty expressing ideas.",
         questions: [
             { id: "g4-q1", text: "I overthink decisions before taking action." },
             { id: "g4-q2", text: "I can easily adapt my communication style to different people." },
@@ -239,6 +255,7 @@ export const grahas: CardData[] = [
         name: "Jupiter",
         title: "Growth & Wisdom",
         description: "Tests optimism, ethics, long-term thinking, and your desire for personal or spiritual expansion.",
+        detailedDescription: "Jupiter measures your worldview — how hopeful, wise, and future-oriented you are. It gauges your moral compass, trust in life, and hunger for growth. High scores show expansive vision; lower ones suggest pessimism, fear, or narrow thinking.",
         questions: [
             { id: "g5-q1", text: "I believe that everything happens for a reason." },
             { id: "g5-q2", text: "I prioritize ethical considerations over personal gain." },
@@ -253,6 +270,7 @@ export const grahas: CardData[] = [
         name: "Venus",
         title: "Love & Pleasure",
         description: "Tests desire for harmony, beauty, affection, and how you express or receive love.",
+        detailedDescription: "Venus represents your relationship with pleasure, connection, aesthetics, and intimacy. It measures how you bond emotionally, what you find beautiful, and how you navigate attraction. High scores reflect warmth and sensuality; lower scores indicate detachment or difficulty giving/receiving affection.",
         questions: [
             { id: "g6-q1", text: "I need beauty and harmony in my surroundings to feel good." },
             { id: "g6-q2", text: "I express affection physically and verbally." },
@@ -267,6 +285,7 @@ export const grahas: CardData[] = [
         name: "Saturn",
         title: "Discipline & Boundaries",
         description: "Tests patience, boundaries, fear patterns, and your relationship with hard work and limits.",
+        detailedDescription: "Saturn tracks how you handle responsibility, structure, and long-term commitments. It also highlights fears, resilience, and your ability to endure discomfort. High scores show maturity and stability; lower scores show avoidance, impulsiveness, or fragility under pressure.",
         questions: [
             { id: "g7-q1", text: "I am willing to work hard for long-term rewards." },
             { id: "g7-q2", text: "I often feel restricted by rules and obligations." },
@@ -281,6 +300,7 @@ export const grahas: CardData[] = [
         name: "Rahu",
         title: "Ambition & Obsession",
         description: "Tests unconventional desires, ambition, risk-taking, and attraction to the unfamiliar or extreme.",
+        detailedDescription: "Rahu represents your restless edges — the part of you that hungers for more, breaks norms, and pursues future possibilities. It captures your obsession patterns, innovation drive, and appetite for the unknown. High scores show bold exploration; low ones show fear of change or limited vision.",
         questions: [
             { id: "g8-q1", text: "I am often drawn to the unconventional or taboo." },
             { id: "g8-q2", text: "I have intense desires that can become obsessive." },
@@ -295,6 +315,7 @@ export const grahas: CardData[] = [
         name: "Ketu",
         title: "Detachment & Intuition",
         description: "Tests spiritual instinct, letting-go ability, minimalism, and intuitive or subconscious insights.",
+        detailedDescription: "Ketu embodies your inner detachment — the ability to release, observe, and rely on intuition instead of desire. It measures spiritual inclination, introspection, and neutrality. High scores indicate deep inner wisdom; lower scores show over-attachment, confusion, or difficulty letting go.",
         questions: [
             { id: "g9-q1", text: "I often feel detached from the material world." },
             { id: "g9-q2", text: "I rely on sudden insights rather than logical deduction." },

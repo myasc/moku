@@ -197,12 +197,10 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                                     <X className="w-5 h-5" />
                                 </button>
 
-                                <h3 className="text-xl font-bold text-mystic-gold mb-4">{data.name}</h3>
+                                <h3 className="text-xl font-bold text-mystic-gold mb-2">{data.name}</h3>
+                                <h4 className="text-lg text-mystic-text mb-4">{data.title}</h4>
                                 <p className="text-mystic-text text-base leading-relaxed">
-                                    {data.description}
-                                </p>
-                                <p className="mt-4 text-sm text-mystic-muted">
-                                    This archetype influences your subconscious patterns. Understanding it is key to self-mastery.
+                                    {data.detailedDescription || data.description}
                                 </p>
                             </motion.div>
                         )}

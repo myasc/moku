@@ -26,6 +26,7 @@ export interface CardData {
     name: HouseName | GrahaName;
     title: string; // e.g., "Self & Identity"
     description: string;
+    detailedDescription?: string;
     questions: Question[];
     aiPrompt: string; // Prompt for generating questions
     icon: any; // Lucide Icon

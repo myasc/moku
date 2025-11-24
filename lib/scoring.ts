@@ -1,29 +1,151 @@
-import { UserProfile, CardData } from "./types";
-import { allCards } from "./data";
+import { UserProfile, CardData, InterpretationBucket, CategoryType } from "./types";
+import { allCards, houses, grahas } from "./data";
 
 export interface CompatibilityResult {
     score: number;
     matchLevel: "Soulmate" | "Deep Connection" | "Balanced" | "Challenging" | "Karmic Lesson";
     description: string;
+    details: {
+        complementary: string[];
+        tensions: string[];
+        conflictLocations: string[];
+    };
+}
+
+export interface ProfileAnalysis {
+    structural: {
+        title: string;
+        score: number;
+        bucket: InterpretationBucket;
+        description: string;
+    }[];
+    energetic: {
+        title: string;
+        score: number;
+        bucket: InterpretationBucket;
+        description: string;
+    }[];
+}
+
+export function getInterpretationBucket(score: number): InterpretationBucket {
+    if (score <= 6) return "Low";
+    if (score <= 10) return "Medium";
+    return "High";
+}
+
+export function getProfileAnalysis(profile: UserProfile): ProfileAnalysis {
+    const analyzeCard = (card: CardData) => {
+        const score = profile.scores[card.id] || 0;
+        const bucket = getInterpretationBucket(score);
+        let description = "";
+
+        if (bucket === "Low") description = "Deficient, under-expressed, avoidance tendencies";
+        else if (bucket === "Medium") description = "Balanced expression";
+        else description = "Dominant theme; over-identification possible";
+
+        return {
+            title: card.name,
+            score,
+            bucket,
+            description
+        };
+    };
+
+    return {
+        structural: houses.map(analyzeCard),
+        energetic: grahas.map(analyzeCard)
+    };
 }
 
 export function calculateCompatibility(profile1: UserProfile, profile2: UserProfile): CompatibilityResult {
     let totalDiff = 0;
     let maxDiff = 0;
 
+    // 1. Calculate Base Score (Similarity)
     allCards.forEach((card) => {
         const score1 = profile1.scores[card.id] || 0;
         const score2 = profile2.scores[card.id] || 0;
 
-        // Difference between scores (0-4)
+        // Difference between scores (0-12, since range is 3-15)
         const diff = Math.abs(score1 - score2);
         totalDiff += diff;
-        maxDiff += 4; // Max possible difference per card
+        maxDiff += 12; // Max possible difference per card (15-3)
     });
 
     // Normalize to 0-100
-    // Lower difference = Higher compatibility
     const compatibilityPercentage = Math.round(((maxDiff - totalDiff) / maxDiff) * 100);
+
+    // 2. Identify Complementary Forces & Tensions
+    const complementary: string[] = [];
+    const tensions: string[] = [];
+
+    const getScore = (p: UserProfile, name: string) => {
+        const card = allCards.find(c => c.name === name);
+        return card ? (p.scores[card.id] || 0) : 0;
+    };
+
+    const isHigh = (score: number) => score >= 11;
+    const isLow = (score: number) => score <= 6;
+
+    // Helper to check pairs for both directions (P1-P2 and P2-P1)
+    const checkPair = (name1: string, name2: string, type: "comp" | "tension", msg: string) => {
+        const p1A = getScore(profile1, name1);
+        const p2B = getScore(profile2, name2);
+
+        const p1B = getScore(profile1, name2);
+        const p2A = getScore(profile2, name1);
+
+        // Logic: If both have high energy in complementary pairs, it's a match.
+        // For tension, if one is high and other is high in conflicting energy.
+
+        if (type === "comp") {
+            if ((isHigh(p1A) && isHigh(p2B)) || (isHigh(p1B) && isHigh(p2A))) {
+                complementary.push(msg);
+            }
+        } else {
+            if ((isHigh(p1A) && isHigh(p2B)) || (isHigh(p1B) && isHigh(p2A))) {
+                tensions.push(msg);
+            }
+        }
+    };
+
+    // A. Compatibility (Complementary Forces)
+    checkPair("Sun", "Jupiter", "comp", "Sun & Jupiter: Shared vision and purpose.");
+    checkPair("Moon", "Venus", "comp", "Moon & Venus: Deep emotional and affectionate bond.");
+    checkPair("Mars", "Mercury", "comp", "Mars & Mercury: Action balanced with strategy.");
+    checkPair("Saturn", "Sun", "comp", "Saturn & Sun: Discipline supports ambition.");
+    checkPair("Rahu", "Mars", "comp", "Rahu & Mars: Intense shared drive and goals.");
+
+    // Special case for Ketu stabilizing
+    const p1Ketu = getScore(profile1, "Ketu");
+    const p2Moon = getScore(profile2, "Moon");
+    const p2Venus = getScore(profile2, "Venus");
+    if (isHigh(p1Ketu) && (isHigh(p2Moon) || isHigh(p2Venus))) {
+        complementary.push("Ketu stabilizes emotional intensity.");
+    }
+
+    // B. Natural Tensions
+    checkPair("Mars", "Moon", "tension", "Mars vs Moon: Anger vs Sensitivity.");
+    checkPair("Venus", "Saturn", "tension", "Venus vs Saturn: Desire vs Restriction.");
+    checkPair("Rahu", "Saturn", "tension", "Rahu vs Saturn: Ambition vs Limitation.");
+    checkPair("Sun", "Ketu", "tension", "Sun vs Ketu: Ego vs Detachment.");
+    checkPair("Mercury", "Moon", "tension", "Mercury vs Moon: Logic vs Emotion.");
+
+    // C. House-based Conflict Location (Where conflict shows up)
+    // We look for houses where BOTH have high scores (over-identification) or HUGE gaps
+    const conflictLocations: string[] = [];
+
+    houses.forEach(house => {
+        const s1 = profile1.scores[house.id] || 0;
+        const s2 = profile2.scores[house.id] || 0;
+
+        if (isHigh(s1) && isHigh(s2)) {
+            if (house.name === "4th House") conflictLocations.push("Emotional Security & Home");
+            if (house.name === "7th House") conflictLocations.push("Relationships & Intimacy");
+            if (house.name === "10th House") conflictLocations.push("Career & Public Image");
+            if (house.name === "12th House") conflictLocations.push("Unconscious Patterns");
+        }
+    });
 
     let matchLevel: CompatibilityResult["matchLevel"];
     let description: string;
@@ -49,6 +171,11 @@ export function calculateCompatibility(profile1: UserProfile, profile2: UserProf
         score: compatibilityPercentage,
         matchLevel,
         description,
+        details: {
+            complementary,
+            tensions,
+            conflictLocations
+        }
     };
 }
 

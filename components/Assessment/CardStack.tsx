@@ -18,11 +18,15 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
     const [allScores, setAllScores] = useState<Record<string, number>>({});
     const [rawScores, setRawScores] = useState<Record<string, number[]>>({});
 
+    // Toggle this to show/hide the debug button
+    const SHOW_DEBUG_CONTROLS = true;
+
     const handleCardRate = (scores: number[]) => {
         const currentCard = cards[currentIndex];
-        const averageScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+        // Sum the scores (range 3-15)
+        const totalScore = scores.reduce((a, b) => a + b, 0);
 
-        const newAllScores = { ...allScores, [currentCard.id]: averageScore };
+        const newAllScores = { ...allScores, [currentCard.id]: totalScore };
         setAllScores(newAllScores);
 
         const newRawScores = { ...rawScores, [currentCard.id]: scores };
@@ -35,6 +39,19 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
         }
     };
 
+    const handleRandomFill = () => {
+        const newAllScores: Record<string, number> = {};
+
+        cards.forEach(card => {
+            // Generate 3 random scores between 1 and 5 for each card
+            const randomScores = Array(3).fill(0).map(() => Math.floor(Math.random() * 5) + 1);
+            const totalScore = randomScores.reduce((a, b) => a + b, 0);
+            newAllScores[card.id] = totalScore;
+        });
+
+        onComplete(newAllScores);
+    };
+
     const handleBack = () => {
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
@@ -42,7 +59,20 @@ export function CardStack({ cards, onComplete }: CardStackProps) {
     };
 
     return (
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto relative">
+            {SHOW_DEBUG_CONTROLS && (
+                <div className="absolute -top-12 right-0">
+                    <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleRandomFill}
+                        className="text-xs border-red-500/50 text-red-400 hover:bg-red-500/10 hover:text-red-300"
+                    >
+                        Test: Random Fill
+                    </Button>
+                </div>
+            )}
+
             <div className="mb-6 flex items-center justify-between">
                 {currentIndex > 0 ? (
                     <Button

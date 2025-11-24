@@ -34,5 +34,7 @@ export interface UserProfile {
     name: string;
     dob: string;
     gender: string;
-    scores: Record<string, number>; // cardId -> score (1-5)
+    scores: Record<string, number>; // cardId -> score (3-15)
 }
+
+export type InterpretationBucket = "Low" | "Medium" | "High";

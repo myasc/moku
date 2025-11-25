@@ -70,8 +70,11 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
     const handleRefresh = async (e: React.MouseEvent) => {
         e.stopPropagation();
 
-        if (currentRefreshCount >= 3) {
-            alert("Maximum refresh limit reached");
+        // If we already have questions, just cycle to the next set
+        if (currentSets.length > 0) {
+            const nextIndex = (currentIndex + 1) % currentSets.length;
+            setCurrentSetIndex(cardId, nextIndex);
+            setScores(new Array(3).fill(0)); // Reset scores
             return;
         }
 
@@ -91,7 +94,7 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
             // Update store
             setQuestionSets(cardId, result.questions);
             setCurrentSetIndex(cardId, 0); // Reset to first set
-            incrementRefreshCount(cardId);
+            // incrementRefreshCount(cardId); // No longer needed for limiting, but kept for tracking if desired
 
             // Reset scores for new questions
             setScores(new Array(3).fill(0));
@@ -102,18 +105,6 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
         } finally {
             setLoadingQuestions(cardId, false);
         }
-    };
-
-    const handleNavigate = (e: React.MouseEvent, direction: 'prev' | 'next') => {
-        e.stopPropagation();
-        if (currentSets.length === 0) return;
-
-        const newIndex = direction === 'prev'
-            ? Math.max(0, currentIndex - 1)
-            : Math.min(currentSets.length - 1, currentIndex + 1);
-
-        setCurrentSetIndex(cardId, newIndex);
-        setScores(new Array(3).fill(0)); // Reset scores for new set
     };
 
     const handleInfoClick = (e: React.MouseEvent) => {
@@ -164,7 +155,9 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                     </div>
 
                     <div className="w-20 h-20 rounded-full bg-mystic-gold/10 flex items-center justify-center mb-6">
-                        <data.icon className="w-10 h-10 text-mystic-gold" />
+                        <span className="text-4xl font-heading text-mystic-gold">
+                            {data.name.charAt(0)}
+                        </span>
                     </div>
 
                     <h3 className="text-xl font-bold text-mystic-gold mb-2">{data.name}</h3>
@@ -197,10 +190,12 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                                     <X className="w-5 h-5" />
                                 </button>
 
-                                <h3 className="text-xl font-bold text-mystic-gold mb-2">{data.name}</h3>
-                                <h4 className="text-lg text-mystic-text mb-4">{data.title}</h4>
+                                <h3 className="text-xl font-bold text-mystic-gold mb-4">{data.name}</h3>
                                 <p className="text-mystic-text text-base leading-relaxed">
-                                    {data.detailedDescription || data.description}
+                                    {data.description}
+                                </p>
+                                <p className="mt-4 text-sm text-mystic-muted">
+                                    This archetype influences your subconscious patterns. Understanding it is key to self-mastery.
                                 </p>
                             </motion.div>
                         )}
@@ -216,32 +211,12 @@ export function FlipCard({ data, onRate, initialScores }: FlipCardProps) {
                         <h3 className="text-lg font-bold text-mystic-gold">{data.name}</h3>
 
                         <div className="flex items-center gap-2">
-                            {/* Navigation Arrows */}
-                            {currentSets.length > 0 && (
-                                <>
-                                    <button
-                                        onClick={(e) => handleNavigate(e, 'prev')}
-                                        disabled={currentIndex === 0}
-                                        className="p-1 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronLeft className="w-4 h-4" />
-                                    </button>
-                                    <button
-                                        onClick={(e) => handleNavigate(e, 'next')}
-                                        disabled={currentIndex === currentSets.length - 1}
-                                        className="p-1 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                                    >
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
-                                </>
-                            )}
-
                             {/* Refresh Button */}
                             <button
                                 onClick={handleRefresh}
-                                disabled={currentRefreshCount >= 3 || isLoading}
+                                disabled={isLoading}
                                 className="p-2 hover:bg-white/5 rounded-full text-mystic-muted hover:text-mystic-text disabled:opacity-50 disabled:cursor-not-allowed transition-colors relative"
-                                title={currentRefreshCount >= 3 ? "Refresh limit reached" : "Get new questions"}
+                                title="Get new questions"
                             >
                                 {isLoading ? (
                                     <Loader2 className="w-4 h-4 animate-spin" />

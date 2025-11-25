@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { UserProfile } from "@/lib/types";
-import { getProfileAnalysis, ProfileAnalysis } from "@/lib/scoring";
+import { UserProfile, ProfileAnalysis } from "@/lib/types";
+import { getProfileAnalysis } from "@/lib/scoring";
 import { encodeProfile } from "@/lib/share";
 import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
@@ -39,31 +39,55 @@ export default function ResultsPage() {
 
     if (!profile || !analysis) return null;
 
-    const Section = ({ title, items }: { title: string, items: ProfileAnalysis["structural"] }) => (
-        <div className="space-y-4">
-            <h3 className="text-lg font-heading font-bold text-mystic-gold border-b border-white/10 pb-2">
-                {title}
-            </h3>
-            <div className="grid gap-4">
-                {items.map((item) => (
-                    <div key={item.title} className="bg-white/5 rounded-xl p-4 space-y-2">
-                        <div className="flex justify-between items-center">
-                            <span className="font-bold text-mystic-text">{item.title}</span>
-                            <span className={cn(
-                                "text-xs px-2 py-1 rounded-full border",
-                                item.bucket === "High" ? "bg-red-500/10 border-red-500/20 text-red-400" :
-                                    item.bucket === "Medium" ? "bg-yellow-500/10 border-yellow-500/20 text-yellow-400" :
-                                        "bg-blue-500/10 border-blue-500/20 text-blue-400"
-                            )}>
-                                {item.bucket} ({item.score})
-                            </span>
-                        </div>
-                        <p className="text-sm text-mystic-muted">{item.description}</p>
+    const HighlightCard = ({ title, data, type }: { title: string, data: ProfileAnalysis["topHouse"], type: "strength" | "weakness" | "neutral" }) => {
+        const Icon = data.icon;
+        return (
+            <div className="bg-mystic-purple/50 border border-white/10 rounded-2xl p-6 space-y-4 backdrop-blur-sm relative overflow-hidden">
+                <div className={cn(
+                    "absolute top-0 right-0 p-2 rounded-bl-xl text-xs font-bold uppercase tracking-wider",
+                    type === "strength" ? "bg-green-500/20 text-green-400" :
+                        type === "weakness" ? "bg-red-500/20 text-red-400" :
+                            "bg-mystic-gold/20 text-mystic-gold"
+                )}>
+                    {title}
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-white/5">
+                        <Icon className="w-8 h-8 text-mystic-gold" />
                     </div>
-                ))}
+                    <div>
+                        <h3 className="text-xl font-heading font-bold text-white">{data.title}</h3>
+                        <div className="flex items-center gap-2 text-sm text-mystic-muted">
+                            <span>Score: {data.score}/15</span>
+                            <span>•</span>
+                            <span className={cn(
+                                data.bucket === "High" ? "text-red-400" :
+                                    data.bucket === "Medium" ? "text-yellow-400" :
+                                        "text-blue-400"
+                            )}>{data.bucket} Expression</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="space-y-3 pt-2">
+                    <div className="space-y-1">
+                        <span className="text-xs font-bold text-mystic-gold uppercase tracking-wider">Actionable Insight</span>
+                        <p className="text-sm text-white/90 leading-relaxed">
+                            {data.insight}
+                        </p>
+                    </div>
+
+                    <div className="space-y-1">
+                        <span className="text-xs font-bold text-mystic-muted uppercase tracking-wider">Psychological Why</span>
+                        <p className="text-xs text-mystic-muted italic leading-relaxed">
+                            "{data.psychology}"
+                        </p>
+                    </div>
+                </div>
             </div>
-        </div>
-    );
+        );
+    };
 
     return (
         <main className="min-h-screen p-6 flex flex-col items-center relative overflow-hidden overflow-y-auto">
@@ -131,12 +155,31 @@ export default function ResultsPage() {
                             exit={{ opacity: 0, x: 20 }}
                             className="space-y-6"
                         >
-                            <div className="bg-mystic-purple/50 border border-white/10 rounded-2xl p-6 space-y-8 backdrop-blur-sm">
-                                <Section title="Structural (Houses)" items={analysis.structural} />
-                                <Section title="Energetic (Grahas)" items={analysis.energetic} />
+                            <div className="space-y-6">
+                                <HighlightCard title="Dominant House" data={analysis.topHouse} type="neutral" />
+                                <HighlightCard title="Dominant Planet" data={analysis.topGraha} type="neutral" />
+                                <HighlightCard title="Greatest Strength" data={analysis.topStrength} type="strength" />
+                                <HighlightCard title="Core Challenge" data={analysis.topWeakness} type="weakness" />
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="space-y-4 pt-4">
+                                <div className="bg-mystic-gold/10 border border-mystic-gold/20 rounded-xl p-4 text-center space-y-2">
+                                    <p className="text-sm text-mystic-gold font-medium">
+                                        This is just the tip of the iceberg.
+                                    </p>
+                                    <p className="text-xs text-mystic-muted">
+                                        Get your full 20+ page psychological analysis covering all 12 Houses and 9 Planets.
+                                    </p>
+                                </div>
+
+                                <Button
+                                    variant="secondary"
+                                    className="w-full py-6 text-lg shadow-lg shadow-mystic-gold/10"
+                                    onClick={() => setIsEmailModalOpen(true)}
+                                >
+                                    <Mail className="w-5 h-5 mr-2" /> Get Detailed Report
+                                </Button>
+
                                 <Button
                                     variant="outline"
                                     className="w-full border-mystic-gold/20 text-mystic-gold hover:bg-mystic-gold/10"
@@ -148,14 +191,6 @@ export default function ResultsPage() {
                                     }}
                                 >
                                     <Share2 className="w-4 h-4 mr-2" /> Share Profile
-                                </Button>
-
-                                <Button
-                                    variant="secondary"
-                                    className="w-full"
-                                    onClick={() => setIsEmailModalOpen(true)}
-                                >
-                                    <Mail className="w-4 h-4 mr-2" /> Get Detailed Report
                                 </Button>
                             </div>
                         </motion.div>

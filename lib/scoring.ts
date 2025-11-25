@@ -1,4 +1,4 @@
-import { UserProfile, CardData, InterpretationBucket, CategoryType } from "./types";
+import { UserProfile, CardData, InterpretationBucket, CategoryType, ProfileAnalysis } from "./types";
 import { allCards, houses, grahas } from "./data";
 
 export interface CompatibilityResult {
@@ -12,26 +12,15 @@ export interface CompatibilityResult {
     };
 }
 
-export interface ProfileAnalysis {
-    structural: {
-        title: string;
-        score: number;
-        bucket: InterpretationBucket;
-        description: string;
-    }[];
-    energetic: {
-        title: string;
-        score: number;
-        bucket: InterpretationBucket;
-        description: string;
-    }[];
-}
+
 
 export function getInterpretationBucket(score: number): InterpretationBucket {
     if (score <= 6) return "Low";
     if (score <= 10) return "Medium";
     return "High";
 }
+
+import { cardInsights } from "./insights";
 
 export function getProfileAnalysis(profile: UserProfile): ProfileAnalysis {
     const analyzeCard = (card: CardData) => {
@@ -43,17 +32,48 @@ export function getProfileAnalysis(profile: UserProfile): ProfileAnalysis {
         else if (bucket === "Medium") description = "Balanced expression";
         else description = "Dominant theme; over-identification possible";
 
+        // Get insight based on bucket (Low -> low, Medium/High -> high)
+        // We treat Medium as High for the purpose of "strength" vs "weakness" insights in this context,
+        // or we could default to high. Let's use the score to determine which insight to show.
+        // Actually, for the general list, we might want to show the insight corresponding to the bucket.
+        // But for the "Top" logic, we will be specific.
+
+        const insightData = cardInsights[card.id];
+        const isLow = bucket === "Low";
+        const insight = isLow ? insightData.low.insight : insightData.high.insight;
+        const psychology = isLow ? insightData.low.psychology : insightData.high.psychology;
+
         return {
             title: card.name,
             score,
             bucket,
-            description
+            description,
+            insight,
+            psychology,
+            icon: card.icon
         };
     };
 
+    const structural = houses.map(analyzeCard);
+    const energetic = grahas.map(analyzeCard);
+    const allResults = [...structural, ...energetic];
+
+    // Helper to find max/min
+    const findMax = (items: typeof allResults) => items.reduce((prev, current) => (prev.score > current.score) ? prev : current);
+    const findMin = (items: typeof allResults) => items.reduce((prev, current) => (prev.score < current.score) ? prev : current);
+
+    const topHouse = findMax(structural);
+    const topGraha = findMax(energetic);
+    const topStrength = findMax(allResults);
+    const topWeakness = findMin(allResults);
+
     return {
-        structural: houses.map(analyzeCard),
-        energetic: grahas.map(analyzeCard)
+        structural,
+        energetic,
+        topHouse,
+        topGraha,
+        topStrength,
+        topWeakness
     };
 }
 

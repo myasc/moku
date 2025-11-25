@@ -14,6 +14,25 @@ export interface Question {
     text: string;
 }
 
+export interface InsightResult {
+    title: string;
+    score: number;
+    bucket: InterpretationBucket;
+    description: string;
+    insight: string;
+    psychology: string;
+    icon: any;
+}
+
+export interface ProfileAnalysis {
+    structural: InsightResult[];
+    energetic: InsightResult[];
+    topHouse: InsightResult;
+    topGraha: InsightResult;
+    topStrength: InsightResult;
+    topWeakness: InsightResult;
+}
+
 export interface QuestionSet {
     id: string;
     questions: Question[];

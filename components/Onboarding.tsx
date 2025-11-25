@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { useAppStore } from "@/lib/store";
+import { saveUser } from "@/lib/db";
 
 export function Onboarding() {
     const setUserProfile = useAppStore((state) => state.setUserProfile);
@@ -23,13 +24,27 @@ export function Onboarding() {
         }
     };
 
-    const handleStart = () => {
-        setUserProfile({
+    const handleStart = async () => {
+        const profile = {
             name,
             dob,
             gender,
             scores: {},
-        });
+        };
+
+        // Save user to Supabase
+        const userId = await saveUser(profile);
+
+        if (userId) {
+            console.log("User saved with ID:", userId);
+            // Add ID to profile
+            setUserProfile({ ...profile, id: userId });
+        } else {
+            console.error("Failed to save user to Supabase");
+            // Still proceed but without ID (or handle error differently if critical)
+            setUserProfile(profile);
+        }
+
         setView("assessment");
     };
 
@@ -108,15 +123,20 @@ export function Onboarding() {
 
                         <div className="space-y-4">
                             <h2 className="text-2xl font-heading font-bold text-mystic-text">
-                                How it Works
+                                Psychological Introspection
                             </h2>
-                            <p className="text-mystic-muted leading-relaxed">
-                                You will see 12 Houses and 9 Grahas. Each card represents a part of your psyche.
+                            <p className="text-mystic-muted leading-relaxed text-sm">
+                                This is a deep dive into your psyche, not a future prediction based on planets.
                             </p>
                             <div className="bg-mystic-purple/50 p-4 rounded-xl border border-white/10 text-sm text-left space-y-3">
-                                <p>👆 <strong>Tap</strong> a card to reveal its meaning.</p>
-                                <p>🔄 <strong>Flip</strong> to answer 3 questions about yourself.</p>
-                                <p>✨ <strong>Be Honest</strong> for the most accurate insight.</p>
+                                <p>ℹ️ <strong>Tap Info</strong> to reveal the card&apos;s meaning.</p>
+                                <p>🔄 <strong>Flip</strong> to answer questions about yourself.</p>
+                                <p>🎲 <strong>Refresh</strong> questions if they don&apos;t resonate.</p>
+                                <p>✨ <strong>Be Honest</strong> for accurate insights.</p>
+                                <p>🤝 <strong>Compare</strong> compatibility with friends or partners.</p>
+                                <p className="text-xs text-mystic-muted/80 italic pt-2 border-t border-white/5">
+                                    Note: It&apos;s a bit lengthy, but covers all aspects of your personality.
+                                </p>
                             </div>
                         </div>
 

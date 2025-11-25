@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { UserProfile } from "@/lib/types";
 import { calculateCompatibility, CompatibilityResult } from "@/lib/scoring";
 import { encodeProfile } from "@/lib/share";
+import { incrementCompatibilityRequests } from "@/lib/db";
 import { Button } from "@/components/ui/Button";
 import { Copy, Check, Share2, Heart, Zap, MapPin } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,20 +28,31 @@ export function CompatibilityView({ myProfile, partnerProfile, onClose }: Compat
         }
     }, [myProfile, partnerProfile]);
 
-    const handleCopyLink = () => {
+    const handleCopyLink = async () => {
         if (!myProfile) return;
         const encoded = encodeProfile(myProfile);
         const url = `${window.location.origin}/compare?partner=${encoded}`;
         navigator.clipboard.writeText(url);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
+
+        // Track request if we have a user ID
+        if (myProfile.id) {
+            await incrementCompatibilityRequests(myProfile.id);
+        }
     };
 
-    const handleShareWhatsApp = () => {
+    const handleShareWhatsApp = async () => {
         if (!myProfile) return;
         const encoded = encodeProfile(myProfile);
         const url = `${window.location.origin}/compare?partner=${encoded}`;
         const text = `Hey! I just checked my Kundli profile. Click here to see how compatible we are: ${url}`;
+
+        // Track request if we have a user ID
+        if (myProfile.id) {
+            await incrementCompatibilityRequests(myProfile.id);
+        }
+
         window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
     };
 

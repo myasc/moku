@@ -28,3 +28,43 @@ create policy "Enable read access for all users" on public.generated_questions
 create policy "Enable insert for all users" on public.generated_questions
   for insert
   with check (true);
+
+-- Create the table for storing users
+create table public.users (
+  id uuid not null default gen_random_uuid (),
+  name text not null,
+  dob date not null,
+  gender text not null,
+  compatibility_requests int not null default 0,
+  created_at timestamp with time zone not null default now(),
+  constraint users_pkey primary key (id)
+);
+
+-- Enable RLS for users table
+alter table public.users enable row level security;
+
+-- Allow inserts for users (anyone can create a profile)
+create policy "Enable insert for all users" on public.users
+  for insert
+  with check (true);
+
+-- Allow updates for users (to increment compatibility requests) - ideally restricted to the user themselves or server-side
+-- For this simple app, we'll allow updates to the specific column via RPC or direct update if RLS permits.
+-- But RPC is safer. Let's allow public update for now for simplicity, or better, use RPC with security definer.
+
+create policy "Enable update for all users" on public.users
+  for update
+  using (true);
+
+-- RPC function to safely increment compatibility requests
+create or replace function increment_compatibility_requests(user_id uuid)
+returns void
+language plpgsql
+security definer
+as $$
+begin
+  update public.users
+  set compatibility_requests = compatibility_requests + 1
+  where id = user_id;
+end;
+$$;

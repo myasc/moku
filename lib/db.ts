@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import { QuestionSet } from './types';
+import { QuestionSet, UserProfile } from './types';
 
 export async function getQuestionsForCard(cardId: string): Promise<QuestionSet[] | null> {
     try {
@@ -47,5 +47,45 @@ export async function saveQuestions(cardId: string, questions: QuestionSet[]): P
     } catch (err) {
         console.error('Unexpected error in saveQuestions:', err);
         return false;
+    }
+}
+
+export async function saveUser(profile: UserProfile): Promise<string | null> {
+    try {
+        const { data, error } = await supabase
+            .from('users')
+            .insert({
+                name: profile.name,
+                dob: profile.dob,
+                gender: profile.gender,
+            })
+            .select('id')
+            .single();
+
+        if (error) {
+            console.error('Error saving user:', error);
+            return null;
+        }
+
+        return data.id;
+    } catch (err) {
+        console.error('Unexpected error in saveUser:', err);
+        return null;
+    }
+}
+
+export async function incrementCompatibilityRequests(userId: string): Promise<void> {
+    try {
+        const { error } = await supabase.rpc('increment_compatibility_requests', {
+            user_id: userId
+        });
+
+        if (error) {
+            console.error('Error incrementing compatibility requests:', error);
+        } else {
+            console.log('Successfully incremented compatibility requests for user:', userId);
+        }
+    } catch (err) {
+        console.error('Unexpected error in incrementCompatibilityRequests:', err);
     }
 }

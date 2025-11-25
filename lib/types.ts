@@ -33,6 +33,7 @@ export interface CardData {
 }
 
 export interface UserProfile {
+    id?: string; // Optional because it's not present during initial creation flow
     name: string;
     dob: string;
     gender: string;

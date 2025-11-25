@@ -64,6 +64,12 @@ export async function saveUser(profile: UserProfile): Promise<string | null> {
 
         if (error) {
             console.error('Error saving user:', error);
+            console.error('Error details:', {
+                message: error.message,
+                details: error.details,
+                hint: error.hint,
+                code: error.code
+            });
             return null;
         }
 

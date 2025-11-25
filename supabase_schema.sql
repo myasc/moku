@@ -48,6 +48,11 @@ create policy "Enable insert for all users" on public.users
   for insert
   with check (true);
 
+-- Allow read access for users (needed to return the ID after insert)
+create policy "Enable read access for all users" on public.users
+  for select
+  using (true);
+
 -- Allow updates for users (to increment compatibility requests) - ideally restricted to the user themselves or server-side
 -- For this simple app, we'll allow updates to the specific column via RPC or direct update if RLS permits.
 -- But RPC is safer. Let's allow public update for now for simplicity, or better, use RPC with security definer.

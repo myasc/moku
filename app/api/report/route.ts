@@ -31,14 +31,24 @@ export async function POST(request: Request) {
       <html>
         <head>
           <style>
-            body { font-family: sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background-color: #1a1a1a; color: #d4af37; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background-color: #f9f9f9; padding: 20px; border: 1px solid #ddd; border-top: none; border-radius: 0 0 8px 8px; }
-            .trait { background-color: #fff; padding: 10px; margin-bottom: 10px; border-left: 4px solid #d4af37; }
-            .score-bar { height: 8px; background-color: #eee; border-radius: 4px; overflow: hidden; margin-top: 5px; }
-            .score-fill { height: 100%; background-color: #d4af37; }
-            .footer { text-align: center; margin-top: 20px; font-size: 12px; color: #888; }
+            body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #e0e0e0; background-color: #121212; margin: 0; padding: 0; }
+            .container { max-width: 600px; margin: 0 auto; background-color: #1a1a1a; }
+            .header { background-color: #000000; color: #d4af37; padding: 30px 20px; text-align: center; border-bottom: 1px solid #333; }
+            .header h1 { margin: 0; font-size: 24px; font-weight: 300; letter-spacing: 1px; }
+            .content { padding: 30px 20px; }
+            .section-title { color: #d4af37; font-size: 18px; margin-top: 30px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+            .intro { color: #a0a0a0; font-size: 16px; margin-bottom: 30px; text-align: center; }
+            .trait-list { list-style: none; padding: 0; margin: 0; text-align: center; }
+            .trait-item { display: inline-block; background-color: #333; color: #d4af37; padding: 8px 16px; margin: 5px; border-radius: 20px; font-size: 14px; }
+            .card { background-color: #222; padding: 20px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #333; }
+            .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+            .card-title { color: #fff; font-size: 16px; font-weight: 600; margin: 0; }
+            .card-score { color: #d4af37; font-size: 14px; font-weight: bold; }
+            .card-desc { color: #ccc; font-size: 14px; margin: 0; }
+            .score-bar-bg { height: 6px; background-color: #333; border-radius: 3px; overflow: hidden; margin-top: 15px; }
+            .score-bar-fill { height: 100%; background-color: #d4af37; }
+            .footer { text-align: center; padding: 30px 20px; font-size: 12px; color: #666; background-color: #000; }
+            .footer p { margin: 5px 0; }
           </style>
         </head>
         <body>
@@ -47,53 +57,57 @@ export async function POST(request: Request) {
               <h1>${profile.name}'s Kundli Profile</h1>
             </div>
             <div class="content">
-              <h2>Your Dominant Themes</h2>
-              <p>Based on your responses, your strongest energies are:</p>
-              <ul>
-                ${dominantTraits.map(trait => `<li><strong>${trait}</strong></li>`).join('')}
+              <p class="intro">Here is your personalized breakdown of your cosmic blueprint.</p>
+              
+              <div class="section-title">Dominant Themes</div>
+              <ul class="trait-list">
+                ${dominantTraits.map(trait => `<li class="trait-item">${trait}</li>`).join('')}
               </ul>
 
-              <h2>Detailed Breakdown</h2>
+              <div class="section-title">Detailed Analysis</div>
               ${allCards.map(card => {
       const score = profile.scores[card.id] || 0;
-      const percentage = (score / 5) * 100;
+      // Score is 3-15. Normalize to percentage for bar width.
+      // (Score - 3) / (15 - 3) * 100 = (Score - 3) / 12 * 100
+      // Or just simple percentage of max: (Score / 15) * 100
+      const percentage = (score / 15) * 100;
+
       return `
-                  <div class="trait">
-                    <h3>${card.title} (${card.name})</h3>
-                    <p>${card.description}</p>
-                    <div>Score: ${score}/5</div>
-                    <div class="score-bar">
-                      <div class="score-fill" style="width: ${percentage}%"></div>
+                  <div class="card">
+                    <div class="card-header">
+                      <h3 class="card-title">${card.title} (${card.name})</h3>
+                      <span class="card-score">${score}/15</span>
+                    </div>
+                    <p class="card-desc">${card.description}</p>
+                    <div class="score-bar-bg">
+                      <div class="score-bar-fill" style="width: ${percentage}%"></div>
                     </div>
                   </div>
                 `;
     }).join('')}
               
-              <p><em>Note: This is a simplified report. Full astrological analysis requires precise birth time and location.</em></p>
+              <p style="margin-top: 40px; font-size: 14px; color: #888; text-align: center;">
+                <em>Note: This report is based on your self-assessment and psychological introspection.</em>
+              </p>
             </div>
             <div class="footer">
               <p>&copy; ${new Date().getFullYear()} Modern Kundli. All rights reserved.</p>
+              <p>Sent via SelfKundli</p>
             </div>
           </div>
         </body>
       </html>
     `;
 
-    if (!process.env.RESEND_API_KEY) {
-      return new Response(JSON.stringify({ error: 'Server configuration error: Missing API Key' }), {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     const data = await resend.emails.send({
-      from: 'Modern Kundli <onboarding@resend.dev>', // Default Resend testing domain
+      from: 'Modern Kundli <noreply@selfkundli.fit>',
       to: [email],
       subject: `Your Detailed Kundli Report - ${profile.name}`,
       html: htmlContent,
     });
 
     if (data.error) {
+      console.error('Resend Error:', data.error);
       return new Response(JSON.stringify({ error: data.error.message }), {
         status: 400,
         headers: { 'Content-Type': 'application/json' },
@@ -105,6 +119,7 @@ export async function POST(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   } catch (error) {
+    console.error('Server Error:', error);
     return new Response(JSON.stringify({ error: error instanceof Error ? error.message : 'Failed to send email' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
